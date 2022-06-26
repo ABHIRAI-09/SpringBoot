@@ -1,12 +1,11 @@
 package com.example.demo.bean;
 
-import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class CustomerDetails {
 	
-	@Min(3)
-	@NotNull
+	@NotEmpty(message = "Username cant be empty")
 	String id;
 	
 	String name;

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.bean.CustomerBean;
 import com.example.demo.data.CustomerInfo;
+import com.example.demo.exception.UserNotFoundInDB;
 import com.example.demo.repository.CustomerRepo;
 
 @Service
@@ -15,7 +16,7 @@ public class CustomerService {
 	@Autowired
 	CustomerRepo customerRepo;
 	
-	public CustomerBean service (String customerId) {
+	public CustomerBean service (String customerId) throws UserNotFoundInDB {
 		
 		Optional<CustomerInfo> customerInfo=customerRepo.findById(customerId);
 		if(customerInfo.isPresent()) {
@@ -24,9 +25,10 @@ public class CustomerService {
 			info.setId(f.getId());
 			info.setName(f.getName());
 			info.setCompanyName(f.getCompany());
-		return info;
+			return info;
+		}else {
+			throw new UserNotFoundInDB("User not found");
 		}
-		return null;
 	}
 	
 	public CustomerInfo postService(CustomerBean c) {

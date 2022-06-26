@@ -3,12 +3,15 @@ package com.example.demo.data;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "customerInfo")
 public class CustomerInfo {
 
 	@Id
+	@NotEmpty(message = "Username cant be empty")
 	String id;
 	
 	String name;

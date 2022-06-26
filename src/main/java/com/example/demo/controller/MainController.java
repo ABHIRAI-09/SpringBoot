@@ -2,9 +2,12 @@ package com.example.demo.controller;
 
 
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.bean.CustomerBean;
 import com.example.demo.bean.CustomerDetails;
 import com.example.demo.data.CustomerInfo;
+import com.example.demo.exception.UserNotFoundInDB;
 import com.example.demo.service.CustomerService;
 
 @RestController
+@Validated
 public class MainController {
 	
 	@Autowired
@@ -36,7 +41,7 @@ public class MainController {
 	}
 	@ResponseBody
 	@GetMapping("/customers/{customerId}")
-	public ResponseEntity<CustomerBean>  getCustomers( @PathVariable String customerId) {
+	public ResponseEntity<CustomerBean>  getCustomers( @PathVariable String customerId) throws UserNotFoundInDB {
 		
 		return new ResponseEntity<>(customerService.service(customerId), HttpStatus.OK);
 	}
@@ -44,13 +49,13 @@ public class MainController {
 	
 	@ResponseBody
 	@PostMapping("/customers")
-	public ResponseEntity<CustomerInfo>  posCustomers( @RequestBody CustomerDetails customerDetails) {
+	public ResponseEntity<CustomerInfo>  posCustomers( @RequestBody @Valid CustomerDetails customerDetails) {
 		CustomerBean customerBean= new CustomerBean();
 		customerBean.setId(customerDetails.getId());
 		customerBean.setName(customerDetails.getName());
 		customerBean.setCompanyName(customerDetails.getCompany());
 		System.out.println(customerBean.toString());
-		return new ResponseEntity<>(customerService.postService(customerBean),HttpStatus.OK);
+		return new ResponseEntity<>(customerService.postService(customerBean),HttpStatus.CREATED);
 		//return customerService.service(customerBean);
 	}
 
