@@ -22,7 +22,12 @@ public class MainController {
 	
 	@Autowired
 	CustomerService customerService;
-	
+	@ResponseBody
+	@GetMapping("/welcome")
+	public String welcome( ) {
+		
+		return "Welcome\n first page";
+	}
 	@ResponseBody
 	@GetMapping("/customers/{customerId}")
 	public CustomerBean  getCustomers( @PathVariable String customerId) {
