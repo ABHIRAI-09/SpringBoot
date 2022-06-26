@@ -70,8 +70,9 @@
 						</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
+			</plugin>	
 		</plugins>
+		<finalName>Demo</finalName>
 	</build>
 
 </project>
