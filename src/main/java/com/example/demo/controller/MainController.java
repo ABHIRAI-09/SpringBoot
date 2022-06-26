@@ -23,6 +23,12 @@ public class MainController {
 	@Autowired
 	CustomerService customerService;
 	@ResponseBody
+	@GetMapping("/")
+	public String start( ) {
+		
+		return "Abhishek rai";
+	}
+	@ResponseBody
 	@GetMapping("/welcome")
 	public String welcome( ) {
 		
