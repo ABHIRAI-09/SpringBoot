@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,13 +32,28 @@ public class MainController {
 	@GetMapping("/")
 	public ResponseEntity<String> start( ) {
 		
-		return new ResponseEntity<>("Hello World!", HttpStatus.OK);
+		return new ResponseEntity<>("Let's Start", HttpStatus.OK);
 	}
 	@ResponseBody
 	@GetMapping("/welcome")
 	public ResponseEntity<String> welcome( ) {
 		
-		return new ResponseEntity<>("Welcome\n first page", HttpStatus.OK);
+		return new ResponseEntity<>("Welcome to my website", HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('NORMAL')")
+	@ResponseBody
+	@GetMapping("/public")
+	public ResponseEntity<String> normal( ) {
+		
+		return new ResponseEntity<>("Hello, this is for NORMAL role ", HttpStatus.OK);
+	}
+	@PreAuthorize("hasRole('ADMIN')")
+	@ResponseBody
+	@GetMapping("/private")
+	public ResponseEntity<String> admin( ) {
+		
+		return new ResponseEntity<>("Hello, this is for ADMIN role", HttpStatus.OK);
 	}
 	@ResponseBody
 	@GetMapping("/customers/{customerId}")
